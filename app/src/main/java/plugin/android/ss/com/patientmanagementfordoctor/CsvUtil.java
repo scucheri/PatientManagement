@@ -50,6 +50,8 @@ public class CsvUtil {
     }
 
     private static void saveDataToFile(File file, ArrayList<PatientOptionData> dataList) {
+        boolean isFirstFoRow1 = true;
+        boolean isFirstFoRow2 = true;
         try {
             if (!file.exists()) {
                 file.createNewFile();
@@ -57,12 +59,18 @@ public class CsvUtil {
                 file.delete();
                 file.createNewFile();
             }
-            for (PatientOptionData data : dataList) {
-                if (data.getType() == OptionType.TITLE) continue;
+
+            FileOutputStream outStream = new FileOutputStream(file, true);
+
+            for (int index = 0; index < dataList.size(); index++) {
                 try {
-                    FileOutputStream outStream = new FileOutputStream(file, true);
-                    outStream.write((data.getOptionName() + "," + data.getOptionResult() + "\r\n").getBytes());
-                    outStream.close();
+                    PatientOptionData data = dataList.get(index);
+                    if (data.getType() == OptionType.TITLE) continue;
+                    if (!isFirstFoRow1) {
+                        outStream.write(",".getBytes());
+                    }
+                    isFirstFoRow1 = false;
+                    outStream.write(data.getOptionName().getBytes());
                 } catch (FileNotFoundException e) {
                     Log.d(TAG, e.toString());
                     return;
@@ -70,6 +78,27 @@ public class CsvUtil {
                     Log.d(TAG, e.toString());
                 }
             }
+
+            outStream.write("\r\n".getBytes());
+
+            for (int index = 0; index < dataList.size(); index++) {
+                try {
+                    PatientOptionData data = dataList.get(index);
+                    if (data.getType() == OptionType.TITLE) continue;
+                    if (!isFirstFoRow2) {
+                        outStream.write(",".getBytes());
+                    }
+                    isFirstFoRow2 = false;
+                    outStream.write(data.getOptionResult().getBytes());
+                } catch (FileNotFoundException e) {
+                    Log.d(TAG, e.toString());
+                    return;
+                } catch (IOException e) {
+                    Log.d(TAG, e.toString());
+                }
+            }
+            outStream.close();
+
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
