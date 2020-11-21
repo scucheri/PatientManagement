@@ -42,7 +42,7 @@ class PatientListAdapter(val context: Context, val optionListData: ArrayList<Pat
             val arrayAdapter: ArrayAdapter<String> =
                 ArrayAdapter(
                     context,
-                    android.R.layout.simple_spinner_item,
+                    R.layout.option_spinner_item,
                     data.optionSpinnerSlections!!
                 )
             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
