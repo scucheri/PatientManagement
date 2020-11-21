@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="20dp">
 
 
     <TextView
         android:id="@+id/option_name_view"
         android:textColor="@android:color/background_dark"
-        android:textSize="14dp"
+        android:textSize="24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></TextView>
 
 
-
     <EditText
         android:id="@+id/option_edit_textview"
+        android:minWidth="100dp"
         android:textColor="@android:color/background_dark"
-        android:textSize="14dp"
+        android:textSize="24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></EditText>
 
     <Spinner
         android:id="@+id/option_spinner_view"
         android:textColor="@android:color/background_dark"
+        android:minWidth="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></Spinner>
 
