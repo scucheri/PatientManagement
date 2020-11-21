@@ -67,8 +67,8 @@ class MainActivity : AppCompatActivity() {
 
         data.add(PatientOptionData(OptionType.EDIT, "手术史:", null, null))
         data.add(PatientOptionData(OptionType.EDIT, "靶向药物等治疗史:", null, null))
-        data.add(PatientOptionData(OptionType.EDIT, "化疗史无:", null, null))
-        data.add(PatientOptionData(OptionType.EDIT, "放疗史无:", null, null))
+        data.add(PatientOptionData(OptionType.EDIT, "化疗史:", null, null))
+        data.add(PatientOptionData(OptionType.EDIT, "放疗史:", null, null))
 
 
         data.add(PatientOptionData(OptionType.EDIT, "体重:", null, null))
