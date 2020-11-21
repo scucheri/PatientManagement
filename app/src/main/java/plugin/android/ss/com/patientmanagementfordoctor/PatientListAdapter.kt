@@ -1,6 +1,10 @@
 package plugin.android.ss.com.patientmanagementfordoctor
 
 import android.content.Context
+import android.graphics.Typeface
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +16,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
 class PatientListAdapter(val context: Context, val optionListData: ArrayList<PatientOptionData>) :
     RecyclerView.Adapter<PatientListAdapter.PatientListViewHolder>() {
-    var fileName: String? = null
+    var patientName: String? = null
+    var infoNumber: Int = 1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PatientListViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -27,16 +32,38 @@ class PatientListAdapter(val context: Context, val optionListData: ArrayList<Pat
     override fun onBindViewHolder(holder: PatientListViewHolder, position: Int) {
         var data = optionListData.get(position)
         holder.optionNameView.text = data.optionName
-        if (data.type == OptionType.EDIT || data.type == OptionType.NAME) {
+        holder.optionNameView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24f)
+        holder.optionNameView.setTypeface(null, Typeface.NORMAL)
+        holder.titleDivider.visibility = View.GONE
+        if(data.type == OptionType.TITLE){
+            holder.optionNameView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30f)
+            holder.optionNameView.setTypeface(null, Typeface.BOLD)
+            holder.titleDivider.visibility = View.VISIBLE
+            holder.optionEditTextView.visibility = View.GONE
+            holder.optionSpinnerView.visibility = View.GONE
+        }
+        else if (data.type == OptionType.EDIT || data.type == OptionType.NAME) {
             holder.optionEditTextView.visibility = View.VISIBLE
             holder.optionSpinnerView.visibility = View.GONE
-            holder.optionEditTextView.setOnFocusChangeListener(object : View.OnFocusChangeListener {
-                override fun onFocusChange(v: View?, hasFocus: Boolean) {
-                    if (!hasFocus) {
-                        data.optionResult = holder.optionEditTextView.text.toString()
-                        if(data.type == OptionType.NAME){
-                            fileName = data.optionResult + ".csv"
-                        }
+            holder.optionEditTextView.addTextChangedListener(object : TextWatcher{
+                override fun afterTextChanged(s: Editable?) {
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    data.optionResult = s?.toString()
+                    if(data.type == OptionType.NAME){
+                        patientName = data.optionResult
+                    }
+                    if(data.type == OptionType.NUMBER){
+                        patientName = data.optionResult
                     }
                 }
             })
@@ -72,6 +99,7 @@ class PatientListAdapter(val context: Context, val optionListData: ArrayList<Pat
         var optionNameView: TextView = itemView.findViewById(R.id.option_name_view)
         var optionEditTextView: EditText = itemView.findViewById(R.id.option_edit_textview)
         var optionSpinnerView: Spinner = itemView.findViewById(R.id.option_spinner_view)
+        var titleDivider : View = itemView.findViewById(R.id.title_divider)
     }
 
 

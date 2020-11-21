@@ -1,10 +1,13 @@
 package plugin.android.ss.com.patientmanagementfordoctor
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -19,18 +22,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initSaveBtn() {
-        save_btn.setOnClickListener(object : View.OnClickListener{
+        save_btn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                CsvUtil.save(theAdapter?.fileName, theAdapter?.optionListData)
+                val hasPermission = ContextCompat.checkSelfPermission(
+                    this@MainActivity,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+                if (!hasPermission) {
+                    ActivityCompat.requestPermissions(this@MainActivity,
+                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),1)
+                } else {
+                    CsvUtil.save(this@MainActivity, theAdapter?.patientName, theAdapter?.infoNumber?:1,  theAdapter?.optionListData)
+                }
             }
         })
     }
 
     private fun initListView() {
         var data: ArrayList<PatientOptionData> = ArrayList()
+        data.add(PatientOptionData(OptionType.TITLE, "生命体征及体格检查", null, null))
         data.add(PatientOptionData(OptionType.NAME, "姓名:", null, null))
+        data.add(PatientOptionData(OptionType.NUMBER, "登记编号:", null, null))
         data.add(PatientOptionData(OptionType.EDIT, "出生日期:", null, null))
-        data.add(PatientOptionData(OptionType.SPINNER, "性别:", null, arrayOf("男", "女" )))
+        data.add(PatientOptionData(OptionType.SPINNER, "性别:", null, arrayOf("男", "女")))
         data.add(PatientOptionData(OptionType.EDIT, "详细吸烟史:", null, null))
 
         data.add(PatientOptionData(OptionType.EDIT, "病理诊断:", null, null))
@@ -41,8 +55,9 @@ class MainActivity : AppCompatActivity() {
                 OptionType.SPINNER,
                 "基因检测标本类型:",
                 null,
-                arrayOf( "病理组织", "胸腹水" ))
+                arrayOf("病理组织", "胸腹水")
             )
+        )
 
 
         data.add(PatientOptionData(OptionType.EDIT, "检测结果:", null, null))
@@ -64,6 +79,8 @@ class MainActivity : AppCompatActivity() {
         data.add(PatientOptionData(OptionType.EDIT, "呼吸:", null, null))
         data.add(PatientOptionData(OptionType.EDIT, "体温:", null, null))
 
+
+        data.add(PatientOptionData(OptionType.TITLE, "检查项目", null, null))
 
         data.add(PatientOptionData(OptionType.EDIT, "精神状况:", null, null))
         data.add(PatientOptionData(OptionType.EDIT, "皮肤:", null, null))
