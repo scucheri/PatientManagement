@@ -99,6 +99,5 @@ class MainActivity : AppCompatActivity() {
         theAdapter = PatientListAdapter(this, data)
         patient_info_list.adapter = theAdapter
 
-
     }
 }

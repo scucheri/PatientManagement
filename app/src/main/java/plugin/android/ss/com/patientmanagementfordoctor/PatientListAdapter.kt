@@ -30,6 +30,7 @@ class PatientListAdapter(val context: Context, val optionListData: ArrayList<Pat
     }
 
     override fun onBindViewHolder(holder: PatientListViewHolder, position: Int) {
+        holder.setIsRecyclable(false)
         var data = optionListData.get(position)
         holder.optionNameView.text = data.optionName
         holder.optionSpinnerView.adapter = null
@@ -43,7 +44,7 @@ class PatientListAdapter(val context: Context, val optionListData: ArrayList<Pat
             holder.titleDivider.visibility = View.VISIBLE
             holder.optionEditTextView.visibility = View.GONE
             holder.optionSpinnerView.visibility = View.GONE
-        } else if (data.type == OptionType.EDIT || data.type == OptionType.NAME) {
+        } else if (data.type == OptionType.EDIT || data.type == OptionType.NAME || data.type == OptionType.NUMBER) {
             holder.optionEditTextView.visibility = View.VISIBLE
             holder.optionSpinnerView.visibility = View.GONE
             if (data.optionResult != null) {
@@ -105,6 +106,8 @@ class PatientListAdapter(val context: Context, val optionListData: ArrayList<Pat
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             })
         }
+
+
     }
 
     private fun getIndexOfStr(optionResult: String?, optionSpinnerSlections: Array<String>?): Int {
