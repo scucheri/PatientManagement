@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
                         arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),1)
                 } else {
                     CsvUtil.save(this@MainActivity, theAdapter?.patientName, theAdapter?.infoNumber?:1,  theAdapter?.optionListData)
+                    Toast.makeText(applicationContext, "保存成功", Toast.LENGTH_LONG).show()
                 }
             }
         })

@@ -32,21 +32,35 @@ class PatientListAdapter(val context: Context, val optionListData: ArrayList<Pat
     override fun onBindViewHolder(holder: PatientListViewHolder, position: Int) {
         var data = optionListData.get(position)
         holder.optionNameView.text = data.optionName
+        holder.optionSpinnerView.adapter = null
+
         holder.optionNameView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24f)
         holder.optionNameView.setTypeface(null, Typeface.NORMAL)
         holder.titleDivider.visibility = View.GONE
-        if(data.type == OptionType.TITLE){
+        if (data.type == OptionType.TITLE) {
             holder.optionNameView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30f)
             holder.optionNameView.setTypeface(null, Typeface.BOLD)
             holder.titleDivider.visibility = View.VISIBLE
             holder.optionEditTextView.visibility = View.GONE
             holder.optionSpinnerView.visibility = View.GONE
-        }
-        else if (data.type == OptionType.EDIT || data.type == OptionType.NAME) {
+        } else if (data.type == OptionType.EDIT || data.type == OptionType.NAME) {
             holder.optionEditTextView.visibility = View.VISIBLE
             holder.optionSpinnerView.visibility = View.GONE
-            holder.optionEditTextView.addTextChangedListener(object : TextWatcher{
+            if (data.optionResult != null) {
+                holder.optionEditTextView.setText(data.optionResult)
+            }
+            else{
+                holder.optionEditTextView.setText(null)
+            }
+            holder.optionEditTextView.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
+                    data.optionResult = s?.toString()
+                    if (data.type == OptionType.NAME) {
+                        patientName = data.optionResult
+                    }
+                    if (data.type == OptionType.NUMBER) {
+                        patientName = data.optionResult
+                    }
                 }
 
                 override fun beforeTextChanged(
@@ -58,18 +72,19 @@ class PatientListAdapter(val context: Context, val optionListData: ArrayList<Pat
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    data.optionResult = s?.toString()
-                    if(data.type == OptionType.NAME){
-                        patientName = data.optionResult
-                    }
-                    if(data.type == OptionType.NUMBER){
-                        patientName = data.optionResult
-                    }
                 }
             })
         } else if (data.type == OptionType.SPINNER && data.optionSpinnerSlections != null) {
             holder.optionEditTextView.visibility = View.GONE
             holder.optionSpinnerView.visibility = View.VISIBLE
+            if (data.optionResult != null) {
+                holder.optionSpinnerView.setSelection(
+                    getIndexOfStr(
+                        data.optionResult,
+                        data.optionSpinnerSlections
+                    )
+                )
+            }
             val arrayAdapter: ArrayAdapter<String> =
                 ArrayAdapter(
                     context,
@@ -93,13 +108,24 @@ class PatientListAdapter(val context: Context, val optionListData: ArrayList<Pat
         }
     }
 
+    private fun getIndexOfStr(optionResult: String?, optionSpinnerSlections: Array<String>?): Int {
+        if (optionSpinnerSlections?.contains(optionResult) == true) {
+            optionSpinnerSlections.forEachIndexed { index, element ->
+                if (element == optionResult) {
+                    return index
+                }
+            }
+        }
+        return 0
+    }
+
     class PatientListViewHolder(
         itemView: View
     ) : ViewHolder(itemView) {
         var optionNameView: TextView = itemView.findViewById(R.id.option_name_view)
         var optionEditTextView: EditText = itemView.findViewById(R.id.option_edit_textview)
         var optionSpinnerView: Spinner = itemView.findViewById(R.id.option_spinner_view)
-        var titleDivider : View = itemView.findViewById(R.id.title_divider)
+        var titleDivider: View = itemView.findViewById(R.id.title_divider)
     }
 
 
