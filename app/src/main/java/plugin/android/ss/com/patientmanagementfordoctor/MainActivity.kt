@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                     ActivityCompat.requestPermissions(this@MainActivity,
                         arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),1)
                 } else {
-                    CsvUtil.save(this@MainActivity, theAdapter?.patientName, theAdapter?.infoNumber?:1,  theAdapter?.optionListData)
+                    CsvUtil.save(this@MainActivity, theAdapter?.patientName, theAdapter?.infoNumber?:"1",  theAdapter?.optionListData)
                     Toast.makeText(applicationContext, "保存成功", Toast.LENGTH_LONG).show()
                 }
             }

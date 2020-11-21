@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 class PatientListAdapter(val context: Context, val optionListData: ArrayList<PatientOptionData>) :
     RecyclerView.Adapter<PatientListAdapter.PatientListViewHolder>() {
     var patientName: String? = null
-    var infoNumber: Int = 1
+    var infoNumber: String? = "1"
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PatientListViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -48,8 +48,7 @@ class PatientListAdapter(val context: Context, val optionListData: ArrayList<Pat
             holder.optionSpinnerView.visibility = View.GONE
             if (data.optionResult != null) {
                 holder.optionEditTextView.setText(data.optionResult)
-            }
-            else{
+            } else{
                 holder.optionEditTextView.setText(null)
             }
             holder.optionEditTextView.addTextChangedListener(object : TextWatcher {
@@ -59,7 +58,7 @@ class PatientListAdapter(val context: Context, val optionListData: ArrayList<Pat
                         patientName = data.optionResult
                     }
                     if (data.type == OptionType.NUMBER) {
-                        patientName = data.optionResult
+                        infoNumber = data.optionResult
                     }
                 }
 

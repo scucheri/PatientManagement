@@ -18,7 +18,7 @@ public class CsvUtil {
     private static String folderName = "/病人信息/";
 
 
-    public static void save(Context context, String patientName, int infoNumber, ArrayList<PatientOptionData> dataList) {
+    public static void save(Context context, String patientName, String infoNumber, ArrayList<PatientOptionData> dataList) {
         if (dataList == null || context == null || TextUtils.isEmpty(patientName)) return;
 
         String baseDir = context.getExternalFilesDir(null).getAbsolutePath();
