@@ -18,20 +18,20 @@ class MainActivity : AppCompatActivity() {
     private fun initData() {
         var data: ArrayList<PatientOptionData> = ArrayList()
         data.add(PatientOptionData(OptionType.EDIT, "出生日期:", null, null))
-        data.add(PatientOptionData(OptionType.SPINNER, "性别:", null, Array(2, { "男"; "女" })))
+        data.add(PatientOptionData(OptionType.SPINNER, "性别:", null, arrayOf("男", "女" )))
         data.add(PatientOptionData(OptionType.EDIT, "详细吸烟史:", null, null))
 
         data.add(PatientOptionData(OptionType.EDIT, "病理诊断:", null, null))
         data.add(PatientOptionData(OptionType.EDIT, "确诊日期:", null, null))
-        data.add(PatientOptionData(OptionType.SPINNER, "手术:", null, Array(2, { "活检"; "穿刺" })))
+        data.add(PatientOptionData(OptionType.SPINNER, "手术:", null, arrayOf("活检", "穿刺")))
         data.add(
             PatientOptionData(
                 OptionType.SPINNER,
                 "基因检测标本类型:",
                 null,
-                Array(2, { "病理组织"; "胸腹水" })
+                arrayOf( "病理组织", "胸腹水" ))
             )
-        )
+
 
         data.add(PatientOptionData(OptionType.EDIT, "检测结果:", null, null))
 
