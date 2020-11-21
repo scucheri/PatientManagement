@@ -1,22 +1,34 @@
 package plugin.android.ss.com.patientmanagementfordoctor
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+    private var theAdapter: PatientListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initData()
+        initListView()
+        initSaveBtn()
     }
 
-    private fun initData() {
+    private fun initSaveBtn() {
+        save_btn.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                CsvUtil.save(theAdapter?.fileName, theAdapter?.optionListData)
+            }
+        })
+    }
+
+    private fun initListView() {
         var data: ArrayList<PatientOptionData> = ArrayList()
+        data.add(PatientOptionData(OptionType.NAME, "姓名:", null, null))
         data.add(PatientOptionData(OptionType.EDIT, "出生日期:", null, null))
         data.add(PatientOptionData(OptionType.SPINNER, "性别:", null, arrayOf("男", "女" )))
         data.add(PatientOptionData(OptionType.EDIT, "详细吸烟史:", null, null))
@@ -65,7 +77,8 @@ class MainActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         patient_info_list.setLayoutManager(layoutManager)
-        patient_info_list.adapter = PatientListAdapter(this, data)
+        theAdapter = PatientListAdapter(this, data)
+        patient_info_list.adapter = theAdapter
 
 
     }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
 class PatientListAdapter(val context: Context, val optionListData: ArrayList<PatientOptionData>) :
     RecyclerView.Adapter<PatientListAdapter.PatientListViewHolder>() {
+    var fileName: String? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PatientListViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -26,13 +27,16 @@ class PatientListAdapter(val context: Context, val optionListData: ArrayList<Pat
     override fun onBindViewHolder(holder: PatientListViewHolder, position: Int) {
         var data = optionListData.get(position)
         holder.optionNameView.text = data.optionName
-        if (data.type == OptionType.EDIT) {
+        if (data.type == OptionType.EDIT || data.type == OptionType.NAME) {
             holder.optionEditTextView.visibility = View.VISIBLE
             holder.optionSpinnerView.visibility = View.GONE
             holder.optionEditTextView.setOnFocusChangeListener(object : View.OnFocusChangeListener {
                 override fun onFocusChange(v: View?, hasFocus: Boolean) {
                     if (!hasFocus) {
                         data.optionResult = holder.optionEditTextView.text.toString()
+                        if(data.type == OptionType.NAME){
+                            fileName = data.optionResult + ".csv"
+                        }
                     }
                 }
             })

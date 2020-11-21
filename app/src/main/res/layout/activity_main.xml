@@ -6,11 +6,23 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/save_btn"
+        android:padding="10dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/holo_blue_dark"
+        android:textSize="24dp"
+        android:text="保存"
+        android:textColor="@android:color/background_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></Button>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/patient_info_list"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
     </androidx.recyclerview.widget.RecyclerView>
+
 
 </LinearLayout>
